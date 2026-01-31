@@ -1,0 +1,94 @@
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+    z-index: 1;
+}
+
+.loader-logo {
+    font-family: var(--font-mono);
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.loader-logo .logo-bracket {
+    color: var(--primary);
+}
+
+.loader-logo .logo-name {
+    color: var(--text-primary);
+}
+
+.loader-logo .logo-slash {
+    color: var(--secondary);
+}
+
+.loader-progress {
+    width: 200px;
+    height: 4px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+}
+
+.loader-text {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+}
+
+/* Background Circles */
+.loader-circles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.loader-circle {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    opacity: 0.5;
+}
+
+.loader-circle:nth-child(1) {
+    border-color: var(--primary);
+}
+
+.loader-circle:nth-child(2) {
+    border-color: var(--secondary);
+}
+
+.loader-circle:nth-child(3) {
+    border-color: var(--accent);
+}

@@ -1,0 +1,165 @@
+/* ============================================
+   KASHIF'S PORTFOLIO - DESIGN SYSTEM VARIABLES
+   ============================================ */
+
+:root {
+  /* ===== PRIMARY COLOR PALETTE ===== */
+  --primary: #A855F7;
+  /* Purple */
+  --primary-light: #c084fc;
+  --primary-dark: #7e22ce;
+  --primary-glow: rgba(168, 85, 247, 0.4);
+
+  --secondary: #EC4899;
+  /* Pink */
+  --secondary-light: #f472b6;
+  --secondary-dark: #db2777;
+  --secondary-glow: rgba(236, 72, 153, 0.4);
+
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+
+  /* ===== GRADIENT DEFINITIONS ===== */
+  --gradient-primary: linear-gradient(90deg, #A855F7 0%, #EC4899 100%);
+  --gradient-text: linear-gradient(90deg, #A855F7 0%, #EC4899 50%, #A855F7 100%);
+  --gradient-glow: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+
+  /* ===== TYPOGRAPHY ===== */
+  --font-display: 'Syne', sans-serif;
+  --font-heading: 'Syne', sans-serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-accent: 'Syne', sans-serif;
+
+  /* Font Sizes - Fluid Typography */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.6vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.25rem + 1.25vw, 2rem);
+  --text-3xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+  --text-4xl: clamp(3rem, 2rem + 4vw, 5rem);
+  --text-5xl: clamp(4rem, 2.5rem + 6vw, 8rem);
+  --text-huge: clamp(3rem, 2.5rem + 5vw, 7.5rem);
+
+  /* Font Weights */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  /* Line Heights */
+  --leading-tight: 1.1;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.8;
+
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+
+  /* ===== SPACING SCALE ===== */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* ===== BORDER RADIUS ===== */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
+
+  /* ===== SHADOWS ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px var(--primary-glow);
+
+  /* ===== TRANSITIONS ===== */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* ===== CONTAINER ===== */
+  --container-max: 1400px;
+  --navbar-height: 90px;
+
+  /* ===== DEFAULT DARK THEME ===== */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #121218;
+  --bg-tertiary: #1a1a24;
+
+  --surface: #0a0a0f;
+  --surface-hover: #121218;
+
+  --border-color: rgba(255, 255, 255, 0.08);
+
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #52525b;
+
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  --badge-bg: rgba(30, 30, 35, 0.5);
+  --badge-border: rgba(255, 255, 255, 0.1);
+
+  /* Dark theme overlays */
+  --overlay-gradient: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.2) 100%);
+  --overlay-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  --overlay-strong-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* ============================================
+   LIGHT THEME (International Orange & Slate)
+   ============================================ */
+[data-theme="light"] {
+  --bg-primary: #f8f5f2;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f0f0f0;
+
+  --surface: #ffffff;
+  --surface-hover: #f5f5f5;
+
+  --border-color: rgba(0, 0, 0, 0.05);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+
+  --primary: #ea580c;
+  /* International Orange */
+  --primary-glow: rgba(234, 88, 12, 0.3);
+
+  --secondary: #db2777;
+  /* Pink */
+
+  --gradient-primary: linear-gradient(135deg, #ea580c 0%, #db2777 100%);
+  --gradient-text: linear-gradient(90deg, #ea580c 0%, #db2777 50%, #ea580c 100%);
+  --gradient-glow: radial-gradient(circle, rgba(234, 88, 12, 0.2) 0%, transparent 70%);
+
+  --glass-bg: rgba(255, 255, 255, 0.60);
+  --glass-border: rgba(0, 0, 0, 0.05);
+
+  --badge-bg: rgba(234, 88, 12, 0.1);
+  --badge-border: rgba(234, 88, 12, 0.2);
+
+  /* Light theme overlays */
+  --overlay-gradient: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0.3) 100%);
+  --overlay-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --overlay-strong-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}

@@ -1,0 +1,582 @@
+/* About Page Styles */
+.about-hero {
+    min-height: 100vh;
+    /* Force full viewport height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: var(--navbar-height);
+    background: var(--bg-primary);
+    /* Theme-aware background */
+    overflow: hidden;
+}
+
+.about-hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    /* Ensure container fills hero */
+}
+
+/* Scroll Down Indicator */
+.scroll-down-container {
+    position: absolute;
+    bottom: 30px;
+    /* Adjusted position */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.scroll-text {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+}
+
+.scroll-icon {
+    font-size: 32px;
+    /* Slightly larger icon */
+    color: var(--primary);
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
+    /* Add glow to arrow */
+}
+
+/* Centered content wrapper */
+.about-hero-content.text-center {
+    width: 100%;
+    max-width: 1400px;
+    /* Increased from 1200px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 var(--space-4);
+    /* Ensure some padding on very large screens */
+    margin-bottom: 80px;
+    /* Increased margin to avoid overlap with arrow */
+}
+
+/* Badge */
+.hero-badge-wrapper {
+    margin-bottom: var(--space-8);
+}
+
+.hero-pill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    backdrop-filter: blur(10px);
+}
+
+.badge-icon {
+    font-size: 14px;
+}
+
+/* Massive Title */
+.about-title-massive {
+    width: 100%;
+    margin-bottom: var(--space-8);
+    line-height: 0.85;
+    text-align: center;
+}
+
+.block-text {
+    display: block;
+    /* Reduced max size from 8rem to 6rem, and base clamp range slightly */
+    transform: uppercase;
+    width: 100%;
+    /* Scaling from 2.5rem to 6rem */
+    font-size: clamp(2.5rem, 8vw, 6rem);
+}
+
+.text-gradient-purple {
+    background: var(--gradient-text);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientFlow 5s linear infinite;
+}
+
+/* Override description */
+.about-description.mx-auto {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Hero Glow */
+.hero-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* Adjustments for stats and story to flow after centered hero */
+.stats-banner {
+    border-top: none;
+    background: var(--bg-primary);
+}
+
+/* Bio Section */
+.about-bio-section {
+    padding: var(--space-20) 0;
+    background: var(--bg-primary);
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.bio-bg-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Better scaling for mobile */
+    font-size: clamp(8rem, 20vw, 20rem);
+    font-weight: 900;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.02);
+    font-family: 'Syne', sans-serif;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.bio-content.mx-auto {
+    position: relative;
+    z-index: 1;
+    /* Above watermark */
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bio-text {
+    font-size: 1.5rem;
+    /* Larger font size */
+    line-height: 1.8;
+    color: var(--text-muted);
+    /* Main text muted */
+    text-align: center;
+    font-weight: 300;
+}
+
+.text-white {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.mb-6 {
+    margin-bottom: var(--space-8);
+    /* Increased spacing */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .block-text {
+        font-size: clamp(2.5rem, 10vw, 4rem);
+        /* Adjusted for mobile readability */
+    }
+}
+
+
+/* Stats Banner */
+.stats-banner {
+    padding: var(--space-24) 0;
+    /* Increased spacing */
+    background: var(--bg-primary);
+    position: relative;
+    z-index: 5;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stats-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-16);
+    /* Large gap between items */
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+    position: relative;
+    padding: var(--space-8);
+    background: transparent;
+    /* Remove transparency */
+    border: none;
+    /* Remove border */
+    border-radius: 0;
+    min-width: auto;
+    overflow: visible;
+    cursor: default;
+}
+
+.stat-glow {
+    /* Remove glow container for cleaner look, or make it very subtle behind text */
+    display: none;
+}
+
+/* We can add a divider between items if needed, or just keep them spaced */
+.stat-item+.stat-item {
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: var(--space-16);
+}
+
+.stat-number {
+    display: block;
+    font-size: clamp(3rem, 5vw, 5rem);
+    /* Massive responsive text */
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+    font-family: 'Syne', sans-serif;
+    /* Match hero font */
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.stat-label {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    /* Wide tracking for premium feel */
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+/* Gradient text for numbers - Matches 'JUST CODE' exactly */
+.stat-number.text-gradient {
+    background: var(--gradient-text);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientFlow 5s linear infinite;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    /* Ensure size is impactful */
+}
+
+/* My Story Section */
+.story-section {
+    padding: var(--space-20) 0;
+    background: var(--bg-primary);
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    /* Subtle divider */
+    overflow: hidden;
+}
+
+.story-bg-watermark {
+    position: absolute;
+    top: 20%;
+    /* Position near the top/header */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    /* Better scaling for mobile */
+    font-size: clamp(6rem, 15vw, 15rem);
+    /* Slightly smaller than ABOUT */
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.02);
+    font-family: 'Syne', sans-serif;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.mb-16 {
+    margin-bottom: var(--space-16);
+}
+
+.font-mono {
+    font-family: 'Fira Code', monospace;
+    color: var(--primary);
+    /* subtle highlight for Hello World */
+}
+
+/* Ensure content sits above watermark */
+.section-header {
+    position: relative;
+    z-index: 1;
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+    margin-top: var(--space-16);
+    position: relative;
+    z-index: 1;
+}
+
+.story-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.00) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 32px;
+    /* Very round corners */
+    padding: var(--space-10);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Effect - Glow & Lift */
+.story-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(168, 85, 247, 0.3);
+    box-shadow: 0 20px 40px -10px rgba(168, 85, 247, 0.1);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+}
+
+.story-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.story-card:hover::before {
+    opacity: 1;
+}
+
+.story-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: var(--space-6);
+    background: rgba(139, 92, 246, 0.1);
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+.story-card:hover .story-icon {
+    transform: scale(1.1) rotate(5deg);
+    background: var(--primary);
+    color: white;
+}
+
+.story-title {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-4);
+    color: var(--text-primary);
+    font-family: 'Syne', sans-serif;
+    /* Match headings */
+    font-weight: 700;
+}
+
+.story-content {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .about-title {
+        font-size: var(--text-5xl);
+    }
+
+    .story-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-image-container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-hero-container {
+        flex-direction: column;
+        padding-top: calc(var(--navbar-height) + 1rem);
+        text-align: center;
+    }
+
+    .about-hero-visual {
+        width: 100%;
+        justify-content: center;
+        margin-top: var(--space-8);
+    }
+
+    .about-cta {
+        justify-content: center;
+    }
+
+    .about-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-8);
+    }
+
+    .story-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-title {
+        font-size: var(--text-4xl);
+    }
+}
+
+/* Get In Touch CTA */
+.about-contact {
+    padding: var(--space-24) 0;
+    background: var(--bg-primary);
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    /* Subtle divider */
+    text-align: center;
+    overflow: hidden;
+    margin-top: var(--space-32);
+    /* Huge separation from previous section */
+    margin-bottom: var(--space-20);
+}
+
+.contact-bg-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12vw;
+    /* Reduced to fit screen (7 chars * 12vw approx < 100vw) */
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.02);
+    font-family: 'Syne', sans-serif;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.contact-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Ensure container sits above watermark */
+.about-contact .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Redundant .contact-heading removed as we use .section-heading now */
+
+.contact-text {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    /* Better readability */
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--space-12);
+    line-height: 1.6;
+}
+
+.btn-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    /* Smaller padding */
+    background: white;
+    color: black;
+    border-radius: 999px;
+    font-size: 1rem;
+    /* Smaller font */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+}
+
+.btn-large:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+}
+
+.mb-8 {
+    margin-bottom: var(--space-8);
+}
+
+.btn-icon {
+    font-size: 1.25em;
+}
+
+@media (max-width: 480px) {
+    .about-title {
+        font-size: 3rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
