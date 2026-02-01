@@ -443,8 +443,9 @@
     }
 
     .block-text {
-        font-size: clamp(1.5rem, 8vw, 2.5rem);
+        font-size: clamp(2.5rem, 12vw, 4rem);
         letter-spacing: -0.02em;
+        font-weight: 800;
     }
 
     .services-description.mx-auto {
@@ -477,6 +478,12 @@
 
     .section-description.mx-auto {
         font-size: var(--text-base);
+    }
+
+    .block-text {
+        font-size: clamp(2rem, 10vw, 3rem);
+        letter-spacing: -0.02em;
+        font-weight: 800;
     }
 
     /* Compact Service Cards */

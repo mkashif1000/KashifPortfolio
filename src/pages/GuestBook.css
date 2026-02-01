@@ -525,8 +525,9 @@
     }
 
     .block-text {
-        font-size: clamp(1.5rem, 8vw, 2.5rem);
+        font-size: clamp(2.5rem, 12vw, 4rem);
         letter-spacing: -0.02em;
+        font-weight: 800;
     }
 
     .guestbook-description.mx-auto {

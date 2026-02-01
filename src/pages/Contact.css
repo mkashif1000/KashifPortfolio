@@ -522,7 +522,18 @@
     }
 
     .contact-grid {
+        grid-template-columns: 1fr;
         gap: var(--space-8);
+    }
+
+    .contact-info-column {
+        position: relative;
+        z-index: 1;
+    }
+
+    .contact-form-column {
+        position: relative;
+        z-index: 1;
     }
 
     /* Compact Info Cards */
@@ -558,17 +569,22 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 0.75rem;
         margin-top: 0.75rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
     }
 
     .social-btn-glass {
         font-size: 1.25rem;
         border-radius: 14px;
+        aspect-ratio: 1;
     }
 
     /* Compact Form Container */
     .glass-form-container {
         padding: 1.25rem;
         border-radius: 20px;
+        margin-top: 8rem;
     }
 
     .form-header {
@@ -656,8 +672,9 @@
     }
 
     .block-text {
-        font-size: clamp(1.25rem, 7vw, 2rem);
+        font-size: clamp(2rem, 10vw, 3.5rem);
         letter-spacing: -0.01em;
+        font-weight: 800;
     }
 
     .contact-description.mx-auto {
