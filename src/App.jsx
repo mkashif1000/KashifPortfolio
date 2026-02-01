@@ -5,7 +5,6 @@ import { ThemeProvider } from './context/ThemeContext';
 // Common Components
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
-import AnimatedBackground from './components/common/AnimatedBackground';
 import PageLoader from './components/common/PageLoader';
 import ScrollProgress from './components/common/ScrollProgress';
 
@@ -66,9 +65,6 @@ function App() {
 
           {/* Scroll Progress */}
           <ScrollProgress />
-
-          {/* Animated Background */}
-          <AnimatedBackground />
 
           {/* Navigation */}
           <Navbar />

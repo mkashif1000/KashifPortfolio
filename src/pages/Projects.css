@@ -439,33 +439,200 @@
 }
 
 @media (max-width: 768px) {
-    .projects-hero-container {
-        padding-top: calc(var(--navbar-height) + 1rem);
+
+    /* Hero Section Mobile */
+    .projects-hero {
+        min-height: auto;
+        padding-top: calc(var(--navbar-height) + var(--space-8));
+        padding-bottom: var(--space-12);
     }
 
-    .catalog-grid {
-        grid-template-columns: 1fr;
+    .projects-hero-container {
+        padding-top: 0;
+    }
+
+    .projects-hero-content.text-center {
+        margin-bottom: 0;
+        padding: 0 var(--space-3);
+    }
+
+    /* HIDE scroll arrow on mobile */
+    .scroll-down-container {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    .hero-glow {
+        width: 250px;
+        height: 250px;
+    }
+
+    .block-text {
+        font-size: clamp(1.5rem, 8vw, 2.5rem);
+        letter-spacing: -0.02em;
+    }
+
+    .projects-description.mx-auto {
+        font-size: var(--text-base);
+        max-width: 90%;
+    }
+
+    /* Featured Section Mobile */
+    .featured-section {
+        padding: var(--space-12) 0 var(--space-16) 0;
     }
 
     .featured-bg-watermark {
-        font-size: 15vw;
-    }
-}
-
-@media (max-width: 768px) {
-    .projects-hero-container {
-        padding-top: calc(var(--navbar-height) + 2rem);
+        font-size: clamp(4rem, 15vw, 8rem);
     }
 
-    .catalog-grid {
-        grid-template-columns: 1fr;
+    .featured-project-showcase {
+        padding: var(--space-6);
+        border-radius: 20px;
+        margin-bottom: var(--space-12);
     }
 
-    .featured-bg-watermark {
-        font-size: 15vw;
+    .featured-badge {
+        font-size: 10px;
+        padding: 6px 12px;
+        margin-bottom: var(--space-4);
     }
 
     .featured-title {
-        font-size: 2.5rem;
+        font-size: 1.5rem;
+        margin-bottom: var(--space-4);
+    }
+
+    .featured-description {
+        font-size: 0.9rem;
+        margin-bottom: var(--space-4);
+        max-width: 100%;
+    }
+
+    .tech-stack {
+        gap: var(--space-2);
+    }
+
+    .tech-badge {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+
+    /* Catalog Section Mobile */
+    .catalog-section {
+        padding: var(--space-12) 0;
+    }
+
+    .catalog-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+
+    .project-card {
+        border-radius: 18px;
+    }
+
+    .project-card-inner {
+        padding: var(--space-5);
+    }
+
+    .project-icon-wrapper {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+    }
+
+    .project-title {
+        font-size: 1.1rem;
+        margin-bottom: var(--space-2);
+    }
+
+    .project-description {
+        font-size: 0.9rem;
+    }
+
+    .project-tag {
+        font-size: 0.65rem;
+        padding: 3px 6px;
+    }
+
+    .action-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+    }
+
+    .card-actions {
+        opacity: 1;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .projects-hero {
+        padding-top: calc(var(--navbar-height) + var(--space-4));
+        padding-bottom: var(--space-8);
+    }
+
+    .block-text {
+        font-size: clamp(1.25rem, 7vw, 2rem);
+        letter-spacing: -0.01em;
+    }
+
+    .projects-description.mx-auto {
+        font-size: var(--text-sm);
+    }
+
+    .featured-section {
+        padding: var(--space-8) 0 var(--space-12) 0;
+    }
+
+    .featured-bg-watermark {
+        font-size: clamp(3rem, 12vw, 5rem);
+    }
+
+    .featured-project-showcase {
+        padding: var(--space-4);
+        border-radius: 16px;
+    }
+
+    .featured-title {
+        font-size: 1.25rem;
+    }
+
+    .featured-description {
+        font-size: 0.85rem;
+    }
+
+    .catalog-section {
+        padding: var(--space-8) 0;
+    }
+
+    .catalog-grid {
+        gap: var(--space-3);
+    }
+
+    .project-card {
+        border-radius: 14px;
+    }
+
+    .project-card-inner {
+        padding: var(--space-4);
+    }
+
+    .project-icon-wrapper {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        font-size: 1.1rem;
+    }
+
+    .project-title {
+        font-size: 1rem;
+    }
+
+    .project-description {
+        font-size: 0.85rem;
     }
 }

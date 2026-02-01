@@ -490,24 +490,252 @@
 }
 
 @media (max-width: 768px) {
+    .guestbook-page {
+        padding-top: calc(var(--navbar-height) + var(--space-4));
+        padding-bottom: var(--space-12);
+    }
+
+    /* Hero Section Mobile */
+    .guestbook-hero {
+        margin-bottom: 3rem;
+        padding-top: var(--space-4);
+    }
+
     .guestbook-hero-container {
-        padding-top: calc(var(--navbar-height) + 2rem);
+        padding-top: 0;
+    }
+
+    /* HIDE scroll arrow on mobile */
+    .scroll-down-container {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    .hero-badge-wrapper {
+        margin-bottom: var(--space-4);
+    }
+
+    .hero-pill-badge {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+
+    .guestbook-title-massive {
+        margin-bottom: var(--space-4);
     }
 
     .block-text {
-        font-size: 14vw;
+        font-size: clamp(1.5rem, 8vw, 2.5rem);
+        letter-spacing: -0.02em;
+    }
+
+    .guestbook-description.mx-auto {
+        font-size: var(--text-base);
+        max-width: 90%;
+    }
+
+    .hero-glow {
+        width: 250px;
+        height: 250px;
+    }
+
+    /* Content Section Mobile */
+    .guestbook-content-section {
+        padding: var(--space-8) 0 var(--space-16);
     }
 
     .guestbook-bg-watermark {
-        font-size: 15vw;
+        font-size: clamp(4rem, 15vw, 8rem);
+    }
+
+    .guestbook-grid {
+        gap: var(--space-8);
+    }
+
+    /* Compact Form Card */
+    .glass-form-card {
+        padding: 1.25rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+    }
+
+    .form-header h3 {
+        font-size: 1.25rem;
+    }
+
+    .form-header p {
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .guestbook-form {
+        gap: 1rem;
+    }
+
+    .form-group {
+        gap: 0.5rem;
+    }
+
+    .input-label {
+        font-size: 0.75rem;
+    }
+
+    .glass-input {
+        padding: 0.85rem 0.85rem 0.85rem 2.5rem;
+        border-radius: 12px;
+        font-size: 0.9rem;
+    }
+
+    .glass-input.textarea {
+        min-height: 100px;
+    }
+
+    .input-icon {
+        left: 1rem;
+        font-size: 1rem;
     }
 
     .emoji-grid {
         grid-template-columns: repeat(5, 1fr);
-        /* Keep 5 cols but smaller */
+        gap: 0.4rem;
     }
 
     .emoji-btn {
+        font-size: 1.1rem;
+        border-radius: 10px;
+    }
+
+    .btn-submit-glow {
+        padding: 0.85rem;
+        border-radius: 12px;
+        font-size: 0.85rem;
+    }
+
+    /* Compact Entries */
+    .entries-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .entries-header h2 {
         font-size: 1.25rem;
+        gap: 0.75rem;
+    }
+
+    .count-badge {
+        padding: 0.2rem 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .entries-list {
+        gap: 1rem;
+    }
+
+    .entry-card-glass {
+        padding: 1rem;
+        gap: 1rem;
+        border-radius: 18px;
+    }
+
+    .entry-emoji-wrapper {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        font-size: 1.4rem;
+    }
+
+    .entry-name {
+        font-size: 1rem;
+    }
+
+    .entry-date {
+        font-size: 0.7rem;
+    }
+
+    .entry-message {
+        font-size: 0.9rem;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .guestbook-page {
+        padding-top: calc(var(--navbar-height) + var(--space-2));
+    }
+
+    .guestbook-hero {
+        margin-bottom: 2rem;
+    }
+
+    .block-text {
+        font-size: clamp(1.25rem, 7vw, 2rem);
+        letter-spacing: -0.01em;
+    }
+
+    .guestbook-description.mx-auto {
+        font-size: var(--text-sm);
+    }
+
+    .guestbook-content-section {
+        padding: var(--space-6) 0 var(--space-12);
+    }
+
+    .guestbook-bg-watermark {
+        font-size: clamp(3rem, 12vw, 5rem);
+    }
+
+    .glass-form-card {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+
+    .form-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .form-header p {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .glass-input {
+        padding: 0.75rem 0.75rem 0.75rem 2.25rem;
+        border-radius: 10px;
+        font-size: 0.85rem;
+    }
+
+    .input-icon {
+        left: 0.85rem;
+        font-size: 0.9rem;
+    }
+
+    .emoji-btn {
+        font-size: 1rem;
+        border-radius: 8px;
+    }
+
+    .btn-submit-glow {
+        padding: 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .entry-card-glass {
+        padding: 0.85rem;
+        gap: 0.85rem;
+        border-radius: 14px;
+    }
+
+    .entry-emoji-wrapper {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        font-size: 1.2rem;
+    }
+
+    .entry-name {
+        font-size: 0.9rem;
+    }
+
+    .entry-message {
+        font-size: 0.85rem;
     }
 }

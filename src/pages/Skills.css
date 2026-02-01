@@ -65,6 +65,7 @@
     display: block;
     transform: uppercase;
     width: 100%;
+    max-width: 100%;
     /* Scaling from 2.5rem to 6rem */
     font-size: clamp(2.5rem, 8vw, 6rem);
     font-weight: 800;
@@ -72,7 +73,9 @@
     letter-spacing: -0.03em;
     text-transform: uppercase;
     color: var(--text-primary);
-    /* Ensure distinct white color */
+    /* Prevent text overflow */
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .text-outline {
@@ -306,22 +309,194 @@
 }
 
 @media (max-width: 768px) {
+    .skills-page {
+        padding-top: calc(var(--navbar-height) + var(--space-4));
+        padding-bottom: var(--space-12);
+    }
+
+    .skills-header {
+        margin-bottom: 3rem;
+        padding-top: var(--space-4);
+    }
+
+    .hero-badge-wrapper {
+        margin-bottom: var(--space-4);
+    }
+
+    .hero-pill-badge {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+
     .skills-title {
         font-size: 3rem;
     }
 
-    .skills-grid-clean {
-        grid-template-columns: 1fr;
-    }
-
-    .category-header-clean {
-        flex-direction: column;
-        /* Stack header items */
-        align-items: flex-start;
-        text-align: left;
+    .skills-title-massive {
+        margin-bottom: var(--space-4);
     }
 
     .block-text {
-        font-size: clamp(2.5rem, 10vw, 4rem);
+        font-size: clamp(1.5rem, 8vw, 2.5rem);
+        letter-spacing: -0.02em;
+    }
+
+    .skills-description {
+        font-size: var(--text-base);
+        max-width: 90%;
+    }
+
+    .skills-wrapper {
+        gap: 2.5rem;
+    }
+
+    .category-header-clean {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-3);
+        margin-bottom: 1.5rem;
+        padding-left: var(--space-3);
+    }
+
+    .category-icon-large {
+        font-size: 1.5rem;
+    }
+
+    .category-title-large {
+        font-size: var(--text-lg);
+    }
+
+    /* ===== COMPACT SKILL CARDS FOR MOBILE ===== */
+    .skills-grid-clean {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+
+    .skill-card-modern {
+        padding: var(--space-4);
+        border-radius: 18px;
+    }
+
+    .skill-card-modern:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+
+    .skill-card-content {
+        gap: var(--space-3);
+    }
+
+    .skill-icon-wrapper {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        padding: 10px;
+    }
+
+    .skill-name-modern {
+        font-size: 0.95rem;
+    }
+
+    .skill-track {
+        height: 4px;
+    }
+
+    .skill-details {
+        gap: var(--space-2);
+    }
+
+    /* ===== COMPACT SOFT SKILLS ===== */
+    .soft-skills-section {
+        margin-top: 4rem;
+        padding-top: var(--space-12);
+    }
+
+    .soft-skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-3);
+    }
+
+    .soft-skill-card {
+        padding: var(--space-4);
+        border-radius: 16px;
+        gap: var(--space-2);
+    }
+
+    .soft-skill-icon {
+        font-size: 1.5rem;
+        width: 44px;
+        height: 44px;
+        margin-bottom: var(--space-1);
+    }
+
+    .soft-skill-name {
+        font-size: 0.85rem;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .skills-page {
+        padding-top: calc(var(--navbar-height) + var(--space-2));
+    }
+
+    .block-text {
+        font-size: clamp(1.25rem, 7vw, 2rem);
+        letter-spacing: -0.01em;
+    }
+
+    .skills-description {
+        font-size: var(--text-sm);
+    }
+
+    .skills-wrapper {
+        gap: 2rem;
+    }
+
+    .category-header-clean {
+        margin-bottom: 1rem;
+    }
+
+    .category-icon-large {
+        font-size: 1.25rem;
+    }
+
+    .category-title-large {
+        font-size: var(--text-base);
+    }
+
+    .skill-card-modern {
+        padding: var(--space-3);
+        border-radius: 14px;
+    }
+
+    .skill-icon-wrapper {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        padding: 8px;
+    }
+
+    .skill-name-modern {
+        font-size: 0.85rem;
+    }
+
+    .soft-skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-2);
+    }
+
+    .soft-skill-card {
+        padding: var(--space-3);
+        border-radius: 12px;
+    }
+
+    .soft-skill-icon {
+        font-size: 1.25rem;
+        width: 36px;
+        height: 36px;
+    }
+
+    .soft-skill-name {
+        font-size: 0.75rem;
     }
 }

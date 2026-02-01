@@ -115,3 +115,10 @@
 [data-theme="light"] .animated-background::after {
     background: rgba(6, 182, 212, 0.08);
 }
+
+/* Hide animated background on mobile to prevent flash */
+@media (max-width: 768px) {
+    .animated-background {
+        display: none;
+    }
+}
