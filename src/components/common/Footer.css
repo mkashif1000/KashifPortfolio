@@ -204,69 +204,83 @@
     }
 
     .footer-top {
-        grid-template-columns: 1fr;
-        gap: var(--space-6);
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-5) var(--space-4);
         margin-bottom: var(--space-6);
+        text-align: left;
     }
 
-    .footer-brand,
-    .footer-section {
-        gap: var(--space-2);
-    }
-
-    .footer-heading {
-        margin-bottom: var(--space-2);
-        font-size: var(--text-sm);
-    }
-
-    .footer-links {
-        gap: var(--space-2);
-    }
-
-    .footer-divider {
-        margin-bottom: var(--space-4);
-    }
-
-    .footer-brand,
-    .footer-section {
-        grid-column: span 1;
-        text-align: center;
+    /* Brand Section - Full Width */
+    .footer-brand {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-direction: column;
         align-items: center;
-    }
-
-    .footer-logo {
-        justify-content: center;
-        font-size: 1.2rem;
-        margin-bottom: var(--space-1);
+        text-align: center;
+        margin-bottom: var(--space-2);
+        gap: var(--space-2);
     }
 
     .footer-tagline {
-        font-size: 0.8rem;
-        margin-bottom: var(--space-2);
+        max-width: 80%;
+        margin: 0 auto;
     }
 
-    .footer-location {
-        justify-content: center;
+    /* Links Sections - Side by Side */
+    .footer-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .footer-heading {
+        font-size: var(--text-sm);
+        margin-bottom: var(--space-3);
+        color: var(--text-primary);
+        align-self: flex-start;
     }
 
     .footer-links {
-        align-items: center;
+        align-items: flex-start;
+        gap: var(--space-2);
     }
 
     .footer-links a {
-        justify-content: center;
+        justify-content: flex-start;
         font-size: 0.85rem;
+    }
+
+    /* Connect Section - Full Width & Centered */
+    .footer-section:last-child {
+        grid-column: 1 / -1;
+        align-items: center;
+        text-align: center;
+        margin-top: var(--space-2);
+    }
+
+    .footer-section:last-child .footer-heading {
+        align-self: center;
     }
 
     .footer-socials {
         justify-content: center;
+        gap: var(--space-3);
     }
 
+    /* Bottom Section */
     .footer-bottom {
         flex-direction: column;
+        align-items: center;
         text-align: center;
-        gap: var(--space-2);
-        font-size: 0.75rem;
+        gap: var(--space-3);
+        padding-top: var(--space-4);
+        border-top: 1px solid var(--border-color);
+    }
+
+    .footer-divider {
+        display: none;
+        /* Hide main divider as we border-top the bottom section instead for compactness */
     }
 
     .footer-copyright,
