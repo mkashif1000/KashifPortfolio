@@ -1,63 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { db } from '../config/firebase';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FiSearch, FiCalendar, FiClock, FiTag, FiArrowRight } from 'react-icons/fi';
 import './Blog.css';
 
 const CATEGORIES = ['All', 'Development', 'Design', 'Career', 'Tutorials'];
-
-const POSTS = [
-    {
-        id: 1,
-        title: "The Architecture of a Modern MERN Stack",
-        excerpt: "Why I stopped using Redux for everything and how React Query changed my database relationships forever. State management doesn't have to be a headache.",
-        content: "Full content would go here...",
-        category: "Development",
-        date: "Oct 24, 2025",
-        readTime: "8 min read",
-        image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop",
-        featured: true
-    },
-    {
-        id: 2,
-        title: "Mastering CSS Grid in 2026",
-        excerpt: "Flexbox is great, but Grid is the future of layout. Here is a deep dive into subgrid and alignment.",
-        category: "Design",
-        date: "Oct 12, 2025",
-        readTime: "5 min read",
-        image: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?q=80&w=2070&auto=format&fit=crop",
-        featured: false
-    },
-    {
-        id: 3,
-        title: "From Junior to Senior: A Roadmap",
-        excerpt: "The soft skills and hard truths I learned scaling the corporate ladder in the tech industry.",
-        category: "Career",
-        date: "Sep 28, 2025",
-        readTime: "6 min read",
-        image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop",
-        featured: false
-    },
-    {
-        id: 4,
-        title: "Building Accessible Forms",
-        excerpt: "Accessibility isn't optional. Learn how to create inclusive forms that everyone can use.",
-        category: "Tutorials",
-        date: "Sep 15, 2025",
-        readTime: "4 min read",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
-        featured: false
-    },
-    {
-        id: 5,
-        title: "Why I Love Tailwind CSS",
-        excerpt: "Utility-first CSS might look ugly in HTML, but it's beautiful for productivity.",
-        category: "Development",
-        date: "Aug 30, 2025",
-        readTime: "3 min read",
-        image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=2031&auto=format&fit=crop",
-        featured: false
-    }
-];
 
 const TiltCard = ({ children, className, ...props }) => {
     const ref = useRef(null);
@@ -110,19 +59,48 @@ const TiltCard = ({ children, className, ...props }) => {
 };
 
 const Blog = () => {
+    const [posts, setPosts] = useState([]);
     const [activeCategory, setActiveCategory] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredPosts, setFilteredPosts] = useState(POSTS);
+    const [filteredPosts, setFilteredPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const filtered = POSTS.filter(post => {
+        fetchPosts();
+    }, []);
+
+    const fetchPosts = async () => {
+        try {
+            const postsQuery = query(
+                collection(db, 'posts'),
+                orderBy('createdAt', 'desc')
+            );
+            const snapshot = await getDocs(postsQuery);
+            const postsData = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setPosts(postsData);
+            setFilteredPosts(postsData);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+            // Fallback to empty array if Firebase fails
+            setPosts([]);
+            setFilteredPosts([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        const filtered = posts.filter(post => {
             const matchesCategory = activeCategory === 'All' || post.category === activeCategory;
-            const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesSearch = post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                post.excerpt?.toLowerCase().includes(searchQuery.toLowerCase());
             return matchesCategory && matchesSearch;
         });
         setFilteredPosts(filtered);
-    }, [activeCategory, searchQuery]);
+    }, [activeCategory, searchQuery, posts]);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -201,18 +179,55 @@ const Blog = () => {
             {/* Posts Grid */}
             <section className="blog-posts">
                 <div className="container">
-                    <motion.div
-                        className="posts-grid"
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.1 }}
-                    >
-                        {filteredPosts.length > 0 ? (
-                            filteredPosts.map((post) => (
-                                post.featured ? (
-                                    <TiltCard key={post.id} className="featured-tilt-wrapper" variants={itemVariants}>
-                                        <article className="post-card featured">
+                    {loading ? (
+                        <div className="blog-loading">
+                            <div className="loading-spinner"></div>
+                            <p>Loading articles...</p>
+                        </div>
+                    ) : (
+                        <motion.div
+                            className="posts-grid"
+                            variants={containerVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.1 }}
+                        >
+                            {filteredPosts.length > 0 ? (
+                                filteredPosts.map((post) => (
+                                    post.featured ? (
+                                        <TiltCard key={post.id} className="featured-tilt-wrapper" variants={itemVariants}>
+                                            <article className="post-card featured">
+                                                <div className="post-image-container">
+                                                    <img src={post.image} alt={post.title} className="post-image" />
+                                                    <div className="post-category">{post.category}</div>
+                                                </div>
+
+                                                <div className="post-content">
+                                                    <div className="post-meta">
+                                                        <span className="meta-item">
+                                                            <FiCalendar /> {post.date}
+                                                        </span>
+                                                        <span className="meta-item">
+                                                            <FiClock /> {post.readTime}
+                                                        </span>
+                                                    </div>
+
+                                                    <h2 className="post-title">{post.title}</h2>
+                                                    <p className="post-excerpt">{post.excerpt}</p>
+
+                                                    <Link to={`/blog/${post.id}`} className="read-more-btn">
+                                                        Read Article <FiArrowRight />
+                                                    </Link>
+                                                </div>
+                                            </article>
+                                        </TiltCard>
+                                    ) : (
+                                        <motion.article
+                                            key={post.id}
+                                            className="post-card"
+                                            variants={itemVariants}
+                                            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                                        >
                                             <div className="post-image-container">
                                                 <img src={post.image} alt={post.title} className="post-image" />
                                                 <div className="post-category">{post.category}</div>
@@ -231,52 +246,22 @@ const Blog = () => {
                                                 <h2 className="post-title">{post.title}</h2>
                                                 <p className="post-excerpt">{post.excerpt}</p>
 
-                                                <button className="read-more-btn">
+                                                <Link to={`/blog/${post.id}`} className="read-more-btn">
                                                     Read Article <FiArrowRight />
-                                                </button>
+                                                </Link>
                                             </div>
-                                        </article>
-                                    </TiltCard>
-                                ) : (
-                                    <motion.article
-                                        key={post.id}
-                                        className="post-card"
-                                        variants={itemVariants}
-                                        whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                                    >
-                                        <div className="post-image-container">
-                                            <img src={post.image} alt={post.title} className="post-image" />
-                                            <div className="post-category">{post.category}</div>
-                                        </div>
-
-                                        <div className="post-content">
-                                            <div className="post-meta">
-                                                <span className="meta-item">
-                                                    <FiCalendar /> {post.date}
-                                                </span>
-                                                <span className="meta-item">
-                                                    <FiClock /> {post.readTime}
-                                                </span>
-                                            </div>
-
-                                            <h2 className="post-title">{post.title}</h2>
-                                            <p className="post-excerpt">{post.excerpt}</p>
-
-                                            <button className="read-more-btn">
-                                                Read Article <FiArrowRight />
-                                            </button>
-                                        </div>
-                                    </motion.article>
-                                )
-                            ))
-                        ) : (
-                            <motion.div variants={itemVariants} className="no-results">
-                                <FiSearch size={48} />
-                                <h3>No articles found</h3>
-                                <p>Try adjusting your search or category filter.</p>
-                            </motion.div>
-                        )}
-                    </motion.div>
+                                        </motion.article>
+                                    )
+                                ))
+                            ) : (
+                                <motion.div variants={itemVariants} className="no-results">
+                                    <FiSearch size={48} />
+                                    <h3>No articles found</h3>
+                                    <p>Try adjusting your search or category filter.</p>
+                                </motion.div>
+                            )}
+                        </motion.div>
+                    )}
                 </div>
             </section>
 
@@ -286,9 +271,8 @@ const Blog = () => {
                     <motion.div
                         className="newsletter-card"
                         initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.6 }}
                     >
                         <div className="newsletter-content">
                             <div className="newsletter-icon-wrapper">

@@ -436,8 +436,37 @@
     gap: var(--space-4);
 }
 
+/* Loading State */
+.blog-loading {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 4rem;
+    color: var(--text-secondary);
+}
 
+.blog-loading .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
 
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Link styling for read-more-btn */
+a.read-more-btn {
+    text-decoration: none;
+}
 
 /* Newsletter Section */
 .newsletter-section {

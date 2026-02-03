@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './context/AuthContext';
 
 // Common Components
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import PageLoader from './components/common/PageLoader';
 import ScrollProgress from './components/common/ScrollProgress';
+import ProtectedRoute from './components/admin/ProtectedRoute';
 
 // Pages
 import Home from './pages/Home';
@@ -15,8 +17,14 @@ import Skills from './pages/Skills';
 import Projects from './pages/Projects';
 import Services from './pages/Services';
 import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 import GuestBook from './pages/GuestBook';
 import Contact from './pages/Contact';
+
+// Admin Pages
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import BlogEditor from './pages/admin/BlogEditor';
 
 // Styles
 import './styles/index.css';
@@ -35,6 +43,15 @@ const PageWrapper = ({ children }) => {
   );
 };
 
+// Admin Layout (no navbar/footer)
+const AdminLayout = ({ children }) => {
+  return (
+    <div className="admin-layout">
+      {children}
+    </div>
+  );
+};
+
 // Animated Routes Component
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -42,43 +59,93 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
+        {/* Public Routes */}
         <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
         <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
         <Route path="/skills" element={<PageWrapper><Skills /></PageWrapper>} />
         <Route path="/projects" element={<PageWrapper><Projects /></PageWrapper>} />
         <Route path="/services" element={<PageWrapper><Services /></PageWrapper>} />
         <Route path="/blog" element={<PageWrapper><Blog /></PageWrapper>} />
+        <Route path="/blog/:id" element={<PageWrapper><BlogPost /></PageWrapper>} />
         <Route path="/guestbook" element={<PageWrapper><GuestBook /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={<AdminLayout><AdminLogin /></AdminLayout>} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminLayout>
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/editor"
+          element={
+            <AdminLayout>
+              <ProtectedRoute>
+                <BlogEditor />
+              </ProtectedRoute>
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/editor/:id"
+          element={
+            <AdminLayout>
+              <ProtectedRoute>
+                <BlogEditor />
+              </ProtectedRoute>
+            </AdminLayout>
+          }
+        />
       </Routes>
     </AnimatePresence>
   );
 };
 
+// Check if current route is admin
+const useIsAdminRoute = () => {
+  const location = useLocation();
+  return location.pathname.startsWith('/admin');
+};
+
+// Main content wrapper that hides navbar/footer for admin
+const MainContent = () => {
+  const isAdmin = useIsAdminRoute();
+
+  return (
+    <>
+      {!isAdmin && <Navbar />}
+      <main className={isAdmin ? "admin-main" : "main-content"}>
+        <AnimatedRoutes />
+      </main>
+      {!isAdmin && <Footer />}
+    </>
+  );
+};
+
 function App() {
   return (
-    <ThemeProvider>
-      <Router>
-        <div className="app">
-          {/* Page Loader */}
-          <PageLoader />
+    <AuthProvider>
+      <ThemeProvider>
+        <Router>
+          <div className="app">
+            {/* Page Loader */}
+            <PageLoader />
 
-          {/* Scroll Progress */}
-          <ScrollProgress />
+            {/* Scroll Progress */}
+            <ScrollProgress />
 
-          {/* Navigation */}
-          <Navbar />
-
-          {/* Main Content */}
-          <main className="main-content">
-            <AnimatedRoutes />
-          </main>
-
-          {/* Footer */}
-          <Footer />
-        </div>
-      </Router>
-    </ThemeProvider>
+            {/* Main Content */}
+            <MainContent />
+          </div>
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

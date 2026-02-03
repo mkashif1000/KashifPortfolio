@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import {
     FiMail,
@@ -9,7 +10,8 @@ import {
     FiCheck,
     FiArrowDown,
     FiGlobe,
-    FiSmartphone
+    FiSmartphone,
+    FiAlertCircle
 } from 'react-icons/fi';
 import {
     FaInstagram,
@@ -75,6 +77,7 @@ const socialLinks = [
 
 const Contact = () => {
     const containerRef = useRef(null);
+    const formRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"]
@@ -88,22 +91,46 @@ const Contact = () => {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        setError('');
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        // EmailJS configuration from environment variables
+        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-        setIsSubmitting(false);
-        setIsSubmitted(true);
+        // Check if EmailJS is configured
+        if (!serviceId || !templateId || !publicKey) {
+            setError('Email service is not configured. Please contact via social links.');
+            setIsSubmitting(false);
+            return;
+        }
 
-        // Reset after showing success
-        setTimeout(() => {
-            setIsSubmitted(false);
-            setFormData({ name: '', email: '', subject: '', message: '' });
-        }, 3000);
+        try {
+            await emailjs.sendForm(
+                serviceId,
+                templateId,
+                formRef.current,
+                publicKey
+            );
+
+            setIsSubmitting(false);
+            setIsSubmitted(true);
+
+            // Reset after showing success
+            setTimeout(() => {
+                setIsSubmitted(false);
+                setFormData({ name: '', email: '', subject: '', message: '' });
+            }, 3000);
+        } catch (err) {
+            console.error('EmailJS Error:', err);
+            setError('Failed to send message. Please try again or contact via social links.');
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -246,7 +273,17 @@ const Contact = () => {
                                         </button>
                                     </motion.div>
                                 ) : (
-                                    <form onSubmit={handleSubmit} className="contact-form-modern">
+                                    <form ref={formRef} onSubmit={handleSubmit} className="contact-form-modern">
+                                        {error && (
+                                            <motion.div
+                                                className="form-error-message"
+                                                initial={{ opacity: 0, y: -10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                            >
+                                                <FiAlertCircle />
+                                                <span>{error}</span>
+                                            </motion.div>
+                                        )}
                                         <div className="form-row">
                                             <div className="form-group">
                                                 <label>Name</label>
@@ -254,6 +291,7 @@ const Contact = () => {
                                                     <FiUser className="input-icon-modern" />
                                                     <input
                                                         type="text"
+                                                        name="from_name"
                                                         placeholder="Your name"
                                                         value={formData.name}
                                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -267,6 +305,7 @@ const Contact = () => {
                                                     <FiMail className="input-icon-modern" />
                                                     <input
                                                         type="email"
+                                                        name="from_email"
                                                         placeholder="your@email.com"
                                                         value={formData.email}
                                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -282,6 +321,7 @@ const Contact = () => {
                                                 <FiMessageSquare className="input-icon-modern" />
                                                 <input
                                                     type="text"
+                                                    name="subject"
                                                     placeholder="Project inquiry..."
                                                     value={formData.subject}
                                                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
@@ -294,6 +334,7 @@ const Contact = () => {
                                             <label>Message</label>
                                             <div className="input-group-modern textarea-group">
                                                 <textarea
+                                                    name="message"
                                                     placeholder="Tell me about your project..."
                                                     rows="5"
                                                     value={formData.message}
