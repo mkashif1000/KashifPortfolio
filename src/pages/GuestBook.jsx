@@ -1,7 +1,10 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { FiSend, FiUser, FiMessageSquare, FiHeart, FiSmile, FiStar, FiGift, FiCpu, FiEdit3 } from 'react-icons/fi';
-import { FaRocket, FaFire, FaLightbulb, FaHandsClapping, FaLaptopCode } from 'react-icons/fa6';
+import { FiSend, FiUser, FiMessageSquare, FiHeart, FiSmile, FiStar, FiGift, FiCpu, FiEdit3, FiLogOut } from 'react-icons/fi';
+import { FaRocket, FaFire, FaLightbulb, FaHandsClapping, FaLaptopCode, FaGoogle } from 'react-icons/fa6';
+import { auth, db, googleProvider } from '../config/firebase';
+import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
+import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from 'firebase/firestore';
 import './GuestBook.css';
 
 const emojiOptions = [
@@ -17,38 +20,6 @@ const emojiOptions = [
     { id: 'cpu', icon: <FiCpu /> }
 ];
 
-// Sample guest entries
-const initialEntries = [
-    {
-        id: 1,
-        name: 'John Developer',
-        message: "Amazing portfolio! Love the design and the attention to detail. Keep up the great work! 🔥",
-        date: '2024-01-28',
-        emoji: 'fire'
-    },
-    {
-        id: 2,
-        name: 'Sarah Tech',
-        message: "Clean code, beautiful UI. Truly inspiring work from a fellow developer!",
-        date: '2024-01-25',
-        emoji: 'laptop'
-    },
-    {
-        id: 3,
-        name: 'Alex Designer',
-        message: "The animations and transitions are so smooth. Great job on the user experience!",
-        date: '2024-01-20',
-        emoji: 'star'
-    },
-    {
-        id: 4,
-        name: 'Mike Coder',
-        message: "Really impressed by your MERN stack skills. Would love to collaborate sometime!",
-        date: '2024-01-15',
-        emoji: 'clap'
-    }
-];
-
 const GuestBook = () => {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -59,32 +30,75 @@ const GuestBook = () => {
     // Parallax effect for the hero section
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
-    const [entries, setEntries] = useState(initialEntries);
-    const [formData, setFormData] = useState({ name: '', message: '' });
+    const [entries, setEntries] = useState([]);
+    const [formData, setFormData] = useState({ message: '' });
     const [selectedEmoji, setSelectedEmoji] = useState('smile');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [user, setUser] = useState(null);
+    const [authLoading, setAuthLoading] = useState(true);
+
+    // Monitor Auth State
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setAuthLoading(false);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    // Fetch Entries from Firestore
+    useEffect(() => {
+        const q = query(collection(db, "guestbook"), orderBy("timestamp", "desc"));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const fetchedEntries = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setEntries(fetchedEntries);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    const handleSignIn = async () => {
+        try {
+            await signInWithPopup(auth, googleProvider);
+        } catch (error) {
+            console.error("Error signing in", error);
+        }
+    };
+
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.error("Error signing out", error);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.name.trim() || !formData.message.trim()) return;
+        if (!user || !formData.message.trim()) return;
 
         setIsSubmitting(true);
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        try {
+            await addDoc(collection(db, "guestbook"), {
+                name: user.displayName,
+                photoURL: user.photoURL,
+                uid: user.uid,
+                message: formData.message,
+                emoji: selectedEmoji,
+                timestamp: serverTimestamp(),
+                date: new Date().toISOString() // Fallback/Display date
+            });
 
-        const newEntry = {
-            id: Date.now(),
-            name: formData.name,
-            message: formData.message,
-            date: new Date().toISOString().split('T')[0],
-            emoji: selectedEmoji
-        };
-
-        setEntries([newEntry, ...entries]);
-        setFormData({ name: '', message: '' });
-        setSelectedEmoji('smile');
-        setIsSubmitting(false);
+            setFormData({ message: '' });
+            setSelectedEmoji('smile');
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -94,6 +108,7 @@ const GuestBook = () => {
                 <div className="container guestbook-hero-container">
                     <motion.div
                         className="guestbook-hero-content text-center"
+                        style={{ y }}
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -139,7 +154,6 @@ const GuestBook = () => {
                 <div className="container">
                     <div className="guestbook-grid">
 
-                        {/* Left Column: Form */}
                         <div className="guestbook-form-column">
                             <motion.div
                                 className="glass-form-card"
@@ -148,77 +162,95 @@ const GuestBook = () => {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.6 }}
                             >
-                                <div className="form-header">
-                                    <h3>Write a Message</h3>
-                                    <p>Share your thoughts with the community</p>
-                                </div>
-
-                                <form onSubmit={handleSubmit} className="guestbook-form">
-                                    <div className="form-group">
-                                        <label className="input-label">Name</label>
-                                        <div className="input-wrapper">
-                                            <FiUser className="input-icon" />
-                                            <input
-                                                type="text"
-                                                className="glass-input"
-                                                placeholder="What should we call you?"
-                                                value={formData.name}
-                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                required
-                                            />
-                                        </div>
+                                {authLoading ? (
+                                    <div className="loading-container">
+                                        <div className="loading-dots"><span>.</span><span>.</span><span>.</span></div>
                                     </div>
-
-                                    <div className="form-group">
-                                        <label className="input-label">Message</label>
-                                        <div className="input-wrapper textarea-wrapper">
-                                            <FiMessageSquare className="input-icon textarea-icon" />
-                                            <textarea
-                                                className="glass-input textarea"
-                                                placeholder="Your message goes here..."
-                                                value={formData.message}
-                                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                                required
-                                            />
+                                ) : !user ? (
+                                    <div className="guestbook-signin-container">
+                                        <div className="form-header">
+                                            <h3>Join the Conversation</h3>
+                                            <p>Sign in to leave your mark on the guestbook</p>
                                         </div>
+                                        <motion.button
+                                            onClick={handleSignIn}
+                                            className="btn-google-signin"
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                        >
+                                            <FaGoogle className="google-icon" />
+                                            <span>Sign in with Google</span>
+                                        </motion.button>
                                     </div>
-
-                                    <div className="form-group">
-                                        <label className="input-label">Vibe</label>
-                                        <div className="emoji-grid">
-                                            {emojiOptions.map((option) => (
-                                                <button
-                                                    key={option.id}
-                                                    type="button"
-                                                    className={`emoji-btn ${selectedEmoji === option.id ? 'active' : ''}`}
-                                                    onClick={() => setSelectedEmoji(option.id)}
-                                                    title={option.id}
-                                                >
-                                                    {option.icon}
-                                                </button>
-                                            ))}
+                                ) : (
+                                    <>
+                                        <div className="form-header-row">
+                                            <div className="form-header-content">
+                                                <h3>Write a Message</h3>
+                                                <div className="user-badge">
+                                                    {user.photoURL && <img src={user.photoURL} alt={user.displayName} className="user-avatar-sm" />}
+                                                    <span>Posting as <span className="text-gradient-purple">{user.displayName}</span></span>
+                                                </div>
+                                            </div>
+                                            <button onClick={handleSignOut} className="btn-signout-icon" title="Sign Out">
+                                                <FiLogOut />
+                                            </button>
                                         </div>
-                                    </div>
 
-                                    <motion.button
-                                        type="submit"
-                                        className="btn-submit-glow"
-                                        disabled={isSubmitting}
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        {isSubmitting ? (
-                                            <span className="loading-dots">
-                                                <span>.</span><span>.</span><span>.</span>
-                                            </span>
-                                        ) : (
-                                            <>
-                                                <span>PUBLISH MESSAGE</span>
-                                                <FiSend />
-                                            </>
-                                        )}
-                                    </motion.button>
-                                </form>
+                                        <form onSubmit={handleSubmit} className="guestbook-form">
+                                            {/* Message Input */}
+                                            <div className="form-group">
+                                                <label className="input-label">Message</label>
+                                                <div className="input-wrapper textarea-wrapper">
+                                                    <FiMessageSquare className="input-icon textarea-icon" />
+                                                    <textarea
+                                                        className="glass-input textarea"
+                                                        placeholder="Your message goes here..."
+                                                        value={formData.message}
+                                                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="form-group">
+                                                <label className="input-label">Vibe</label>
+                                                <div className="emoji-grid">
+                                                    {emojiOptions.map((option) => (
+                                                        <button
+                                                            key={option.id}
+                                                            type="button"
+                                                            className={`emoji-btn ${selectedEmoji === option.id ? 'active' : ''}`}
+                                                            onClick={() => setSelectedEmoji(option.id)}
+                                                            title={option.id}
+                                                        >
+                                                            {option.icon}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            <motion.button
+                                                type="submit"
+                                                className="btn-submit-glow"
+                                                disabled={isSubmitting}
+                                                whileHover={{ scale: 1.02 }}
+                                                whileTap={{ scale: 0.98 }}
+                                            >
+                                                {isSubmitting ? (
+                                                    <span className="loading-dots">
+                                                        <span>.</span><span>.</span><span>.</span>
+                                                    </span>
+                                                ) : (
+                                                    <>
+                                                        <span>PUBLISH MESSAGE</span>
+                                                        <FiSend />
+                                                    </>
+                                                )}
+                                            </motion.button>
+                                        </form>
+                                    </>
+                                )}
                             </motion.div>
                         </div>
 
@@ -252,7 +284,11 @@ const GuestBook = () => {
                                                 <div className="entry-top">
                                                     <h4 className="entry-name">{entry.name}</h4>
                                                     <span className="entry-date">
-                                                        {new Date(entry.date).toLocaleDateString('en-US', {
+                                                        {entry.timestamp?.toDate ? entry.timestamp.toDate().toLocaleDateString('en-US', {
+                                                            month: 'short',
+                                                            day: 'numeric',
+                                                            year: 'numeric'
+                                                        }) : new Date(entry.date || Date.now()).toLocaleDateString('en-US', {
                                                             month: 'short',
                                                             day: 'numeric',
                                                             year: 'numeric'
