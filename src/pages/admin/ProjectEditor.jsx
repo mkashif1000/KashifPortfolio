@@ -33,7 +33,8 @@ const ProjectEditor = () => {
         demoUrl: '',
         tags: '',
         status: 'In Progress',
-        featured: false
+        featured: false,
+        selectedWork: false
     });
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
@@ -238,7 +239,7 @@ const ProjectEditor = () => {
                             </select>
                         </div>
 
-                        {/* Featured Toggle */}
+                        {/* Featured Toggle (In The Lab / Pin) */}
                         <div className="sidebar-card featured-card">
                             <label className="featured-toggle">
                                 <input
@@ -249,7 +250,23 @@ const ProjectEditor = () => {
                                 />
                                 <span className="toggle-slider"></span>
                                 <span className="toggle-label">
-                                    <FiCheckCircle /> Pin to "In the Lab" / Featured
+                                    <FiCheckCircle /> Pin to "In the Lab" (Projects Page)
+                                </span>
+                            </label>
+                        </div>
+
+                        {/* Selected Work Toggle (Home Page) */}
+                        <div className="sidebar-card featured-card">
+                            <label className="featured-toggle">
+                                <input
+                                    type="checkbox"
+                                    name="selectedWork"
+                                    checked={formData.selectedWork}
+                                    onChange={handleChange}
+                                />
+                                <span className="toggle-slider"></span>
+                                <span className="toggle-label">
+                                    <FiCheckCircle /> Show on Home Page (Selected Works)
                                 </span>
                             </label>
                         </div>

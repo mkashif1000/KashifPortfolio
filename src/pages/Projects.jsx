@@ -135,7 +135,9 @@ const Projects = () => {
                                 style={{ cursor: 'pointer' }}
                             >
                                 <div className="featured-content">
-                                    <div className="featured-badge">{project.status}</div>
+                                    <div className={`featured-badge status-${project.status.toLowerCase().replace(' ', '-')}`}>
+                                        {project.status}
+                                    </div>
                                     <h3 className="featured-title">{project.title}</h3>
                                     <p className="featured-description">
                                         {project.excerpt || project.content?.substring(0, 150) + '...'}

@@ -146,7 +146,7 @@
 
 .featured-project-showcase {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--space-12);
     position: relative;
     z-index: 1;
@@ -183,14 +183,29 @@
     font-family: 'Fira Code', monospace;
     font-size: 12px;
     font-weight: 600;
-    color: #F43F5E;
-    background: rgba(244, 63, 94, 0.1);
-    border: 1px solid rgba(244, 63, 94, 0.2);
     padding: 6px 14px;
     border-radius: 999px;
     margin-bottom: var(--space-6);
     text-transform: uppercase;
     letter-spacing: 0.1em;
+}
+
+.featured-badge.status-in-progress {
+    color: #F43F5E;
+    background: rgba(244, 63, 94, 0.1);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+.featured-badge.status-maintenance {
+    color: #A855F7;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.featured-badge.status-completed {
+    color: #10B981;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .featured-title {
