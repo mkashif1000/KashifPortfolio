@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiClock, FiMapPin } from 'react-icons/fi';
 import './TimeDisplay.css';
 
 const TimeDisplay = () => {
@@ -55,23 +54,17 @@ const TimeDisplay = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
         >
-            <div className="time-card glass-panel">
-                <div className="time-row pk-time">
-                    <div className="time-label">
-                        <FiMapPin className="time-icon" />
-                        <span>PAKISTAN (PKT)</span>
-                    </div>
-                    <div className="time-value">{timeData.pkTime}</div>
+            <div className="time-pill">
+                <div className="time-group">
+                    <span className="time-label">PKT</span>
+                    <span className="time-value">{timeData.pkTime}</span>
                 </div>
 
                 <div className="time-divider"></div>
 
-                <div className="time-row local-time">
-                    <div className="time-label">
-                        <FiClock className="time-icon" />
-                        <span>YOUR TIME ({timeData.userTimeZone.split('/')[1] || 'LOCAL'})</span>
-                    </div>
-                    <div className="time-value">{timeData.localTime}</div>
+                <div className="time-group">
+                    <span className="time-label">LOC</span>
+                    <span className="time-value">{timeData.localTime}</span>
                 </div>
             </div>
         </motion.div>

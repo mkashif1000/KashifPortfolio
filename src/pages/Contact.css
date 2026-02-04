@@ -542,18 +542,23 @@
 
     .contact-grid {
         grid-template-columns: 1fr;
-        gap: 5rem;
+        grid-auto-rows: min-content;
+        gap: 4rem;
+        display: flex;
+        flex-direction: column;
     }
 
     .contact-info-column {
         position: relative;
-        z-index: 1;
+        z-index: 10;
         padding-bottom: 2rem;
+        height: auto;
     }
 
     .contact-form-column {
         position: relative;
-        z-index: 1;
+        z-index: 5;
+        height: auto;
     }
 
     /* Compact Info Cards */
@@ -589,7 +594,8 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 0.75rem;
         margin-top: 0.75rem;
-        margin-bottom: 1rem;
+        margin-bottom: 3rem;
+        /* Increased margin */
         position: relative;
         z-index: 20;
     }
