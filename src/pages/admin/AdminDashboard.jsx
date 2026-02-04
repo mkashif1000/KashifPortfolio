@@ -13,12 +13,16 @@ import {
     FiCalendar,
     FiTag,
     FiFileText,
-    FiSearch
+    FiSearch,
+    FiCheckCircle, // Added
+    FiLayers // Added
 } from 'react-icons/fi';
 import './Admin.css';
 
 const AdminDashboard = () => {
+    const [viewMode, setViewMode] = useState('posts'); // 'posts' or 'projects'
     const [posts, setPosts] = useState([]);
+    const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [deleteConfirm, setDeleteConfirm] = useState(null);
@@ -26,8 +30,12 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchPosts();
-    }, []);
+        if (viewMode === 'posts') {
+            fetchPosts();
+        } else {
+            fetchProjects();
+        }
+    }, [viewMode]);
 
     const fetchPosts = async () => {
         try {
@@ -48,13 +56,38 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleDelete = async (postId) => {
+    const fetchProjects = async () => {
         try {
-            await deleteDoc(doc(db, 'posts', postId));
-            setPosts(posts.filter(post => post.id !== postId));
+            const projectsQuery = query(
+                collection(db, 'projects'),
+                orderBy('createdAt', 'desc')
+            );
+            const snapshot = await getDocs(projectsQuery);
+            const projectsData = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setProjects(projectsData);
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDelete = async (itemId) => {
+        try {
+            const collectionName = viewMode === 'posts' ? 'posts' : 'projects';
+            await deleteDoc(doc(db, collectionName, itemId));
+
+            if (viewMode === 'posts') {
+                setPosts(posts.filter(post => post.id !== itemId));
+            } else {
+                setProjects(projects.filter(project => project.id !== itemId));
+            }
             setDeleteConfirm(null);
         } catch (error) {
-            console.error('Error deleting post:', error);
+            console.error('Error deleting item:', error);
         }
     };
 
@@ -63,10 +96,15 @@ const AdminDashboard = () => {
         navigate('/admin');
     };
 
-    const filteredPosts = posts.filter(post =>
-        post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.category?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredItems = viewMode === 'posts'
+        ? posts.filter(post =>
+            post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            post.category?.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        : projects.filter(project =>
+            project.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            project.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
 
     const stats = {
         total: posts.length,
@@ -84,8 +122,21 @@ const AdminDashboard = () => {
             {/* Header */}
             <header className="admin-header">
                 <div className="admin-header-left">
-                    <h1>Blog Dashboard</h1>
-                    <p>Manage your blog posts</p>
+                    <h1>Admin Dashboard</h1>
+                    <div className="view-toggles">
+                        <button
+                            className={`view-toggle ${viewMode === 'posts' ? 'active' : ''}`}
+                            onClick={() => setViewMode('posts')}
+                        >
+                            <FiFileText /> Blog Posts
+                        </button>
+                        <button
+                            className={`view-toggle ${viewMode === 'projects' ? 'active' : ''}`}
+                            onClick={() => setViewMode('projects')}
+                        >
+                            <FiLayers /> Projects
+                        </button>
+                    </div>
                 </div>
                 <div className="admin-header-right">
                     <Link to="/" className="admin-view-site-btn">
@@ -98,26 +149,53 @@ const AdminDashboard = () => {
             </header>
 
             {/* Stats */}
-            <div className="admin-stats">
-                <div className="stat-card">
-                    <FiFileText className="stat-icon" />
-                    <div className="stat-info">
-                        <span className="stat-value">{stats.total}</span>
-                        <span className="stat-label">Total Posts</span>
+            {viewMode === 'posts' ? (
+                /* Blog Stats */
+                <div className="admin-stats">
+                    <div className="stat-card">
+                        <FiFileText className="stat-icon" />
+                        <div className="stat-info">
+                            <span className="stat-value">{stats.total}</span>
+                            <span className="stat-label">Total Posts</span>
+                        </div>
+                    </div>
+                    <div className="stat-card">
+                        <FiTag className="stat-icon" />
+                        <div className="stat-info">
+                            <span className="stat-value">{stats.categories}</span>
+                            <span className="stat-label">Categories</span>
+                        </div>
+                    </div>
+                    <div className="stat-card featured">
+                        <span className="stat-value">{stats.featured}</span>
+                        <span className="stat-label">Featured</span>
                     </div>
                 </div>
-                <div className="stat-card">
-                    <FiTag className="stat-icon" />
-                    <div className="stat-info">
-                        <span className="stat-value">{stats.categories}</span>
-                        <span className="stat-label">Categories</span>
+            ) : (
+                /* Project Stats */
+                <div className="admin-stats">
+                    <div className="stat-card">
+                        <FiLayers className="stat-icon" />
+                        <div className="stat-info">
+                            <span className="stat-value">{projects.length}</span>
+                            <span className="stat-label">Total Projects</span>
+                        </div>
+                    </div>
+                    <div className="stat-card">
+                        <FiCheckCircle className="stat-icon" />
+                        <div className="stat-info">
+                            <span className="stat-value">{projects.filter(p => p.status === 'Completed').length}</span>
+                            <span className="stat-label">Completed</span>
+                        </div>
+                    </div>
+                    <div className="stat-card featured">
+                        <div className="stat-info">
+                            <span className="stat-value">{projects.filter(p => p.status === 'In Progress').length}</span>
+                            <span className="stat-label">In Progress</span>
+                        </div>
                     </div>
                 </div>
-                <div className="stat-card featured">
-                    <span className="stat-value">{stats.featured}</span>
-                    <span className="stat-label">Featured</span>
-                </div>
-            </div>
+            )}
 
             {/* Actions Bar */}
             <div className="admin-actions-bar">
@@ -131,33 +209,38 @@ const AdminDashboard = () => {
                         className="admin-search-input"
                     />
                 </div>
-                <Link to="/admin/editor" className="admin-create-btn">
-                    <FiPlus /> New Post
+                <Link
+                    to={viewMode === 'posts' ? "/admin/editor" : "/admin/project-editor"}
+                    className="admin-create-btn"
+                >
+                    <FiPlus /> {viewMode === 'posts' ? 'New Post' : 'New Project'}
                 </Link>
             </div>
 
-            {/* Posts List */}
             <div className="admin-posts-container">
                 {loading ? (
                     <div className="admin-loading">
                         <div className="loading-spinner"></div>
-                        <p>Loading posts...</p>
+                        <p>Loading {viewMode}...</p>
                     </div>
-                ) : filteredPosts.length === 0 ? (
+                ) : filteredItems.length === 0 ? (
                     <div className="admin-empty">
                         <FiFileText size={48} />
-                        <h3>No posts yet</h3>
-                        <p>Create your first blog post to get started</p>
-                        <Link to="/admin/editor" className="admin-create-btn">
-                            <FiPlus /> Create Post
+                        <h3>No {viewMode} yet</h3>
+                        <p>Create your first {viewMode === 'posts' ? 'blog post' : 'project'} to get started</p>
+                        <Link
+                            to={viewMode === 'posts' ? "/admin/editor" : "/admin/project-editor"}
+                            className="admin-create-btn"
+                        >
+                            <FiPlus /> Create {viewMode === 'posts' ? 'Post' : 'Project'}
                         </Link>
                     </div>
                 ) : (
                     <div className="admin-posts-list">
                         <AnimatePresence>
-                            {filteredPosts.map((post, index) => (
+                            {filteredItems.map((item, index) => (
                                 <motion.div
-                                    key={post.id}
+                                    key={item.id}
                                     className="admin-post-item"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -165,41 +248,54 @@ const AdminDashboard = () => {
                                     transition={{ delay: index * 0.05 }}
                                 >
                                     <div className="post-item-image">
-                                        {post.image ? (
-                                            <img src={post.image} alt={post.title} />
+                                        {item.image ? (
+                                            <img src={item.image} alt={item.title} />
                                         ) : (
                                             <div className="post-item-placeholder">
-                                                <FiFileText />
+                                                {viewMode === 'posts' ? <FiFileText /> : <FiLayers />}
                                             </div>
                                         )}
                                     </div>
 
                                     <div className="post-item-content">
                                         <div className="post-item-header">
-                                            <h3>{post.title}</h3>
-                                            {post.featured && <span className="featured-badge">Featured</span>}
+                                            <h3>{item.title}</h3>
+                                            {item.featured && <span className="featured-badge">Featured</span>}
                                         </div>
-                                        <p className="post-item-excerpt">{post.excerpt}</p>
+                                        <p className="post-item-excerpt">{item.excerpt}</p>
                                         <div className="post-item-meta">
-                                            <span>
-                                                <FiCalendar /> {post.date || 'No date'}
-                                            </span>
-                                            <span>
-                                                <FiTag /> {post.category || 'Uncategorized'}
-                                            </span>
+                                            {viewMode === 'posts' ? (
+                                                <>
+                                                    <span>
+                                                        <FiCalendar /> {item.date || 'No date'}
+                                                    </span>
+                                                    <span>
+                                                        <FiTag /> {item.category || 'Uncategorized'}
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span>
+                                                        <FiCheckCircle /> {item.status}
+                                                    </span>
+                                                    <span>
+                                                        <FiTag /> {item.tags && item.tags.length > 0 ? `${item.tags.length} tags` : 'No tags'}
+                                                    </span>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
 
                                     <div className="post-item-actions">
                                         <Link
-                                            to={`/admin/editor/${post.id}`}
+                                            to={viewMode === 'posts' ? `/admin/editor/${item.id}` : `/admin/project-editor/${item.id}`}
                                             className="action-btn edit"
                                             title="Edit"
                                         >
                                             <FiEdit2 />
                                         </Link>
                                         <button
-                                            onClick={() => setDeleteConfirm(post.id)}
+                                            onClick={() => setDeleteConfirm(item.id)}
                                             className="action-btn delete"
                                             title="Delete"
                                         >
@@ -208,14 +304,14 @@ const AdminDashboard = () => {
                                     </div>
 
                                     {/* Delete Confirmation */}
-                                    {deleteConfirm === post.id && (
+                                    {deleteConfirm === item.id && (
                                         <motion.div
                                             className="delete-confirm-overlay"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                         >
                                             <div className="delete-confirm-content">
-                                                <p>Delete this post?</p>
+                                                <p>Delete this {viewMode === 'posts' ? 'post' : 'project'}?</p>
                                                 <div className="delete-confirm-actions">
                                                     <button
                                                         onClick={() => setDeleteConfirm(null)}
@@ -224,7 +320,7 @@ const AdminDashboard = () => {
                                                         Cancel
                                                     </button>
                                                     <button
-                                                        onClick={() => handleDelete(post.id)}
+                                                        onClick={() => handleDelete(item.id)}
                                                         className="confirm-delete-btn"
                                                     >
                                                         Delete

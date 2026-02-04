@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiGithub, FiTwitter, FiInstagram, FiMessageSquare, FiSend, FiMail, FiArrowRight } from 'react-icons/fi';
+import { FiArrowRight } from 'react-icons/fi';
+import {
+    FaInstagram,
+    FaDiscord,
+    FaGithub,
+    FaWhatsapp,
+    FaTelegram
+} from 'react-icons/fa6';
+import { MdEmail } from 'react-icons/md';
 import OrbitAnimation from '../components/animations/OrbitAnimation';
 import TechStackMarquee from '../components/common/TechStackMarquee';
 import FeaturedProjects from '../components/common/FeaturedProjects';
 import Testimonials from '../components/common/Testimonials';
+import ContactForm from '../components/common/ContactForm';
+import TimeDisplay from '../components/common/TimeDisplay';
 import './Home.css';
 
 const Typewriter = ({ text, delay = 100 }) => {
@@ -60,10 +70,9 @@ const Home = () => {
                         initial="hidden"
                         animate="visible"
                     >
-                        {/* Available Badge */}
-                        <motion.div className="hero-badge" variants={itemVariants}>
-                            <span className="badge-dot"></span>
-                            <span>AVAILABLE FOR HIRE</span>
+                        {/* Available Badge Removed */}
+                        <motion.div className="hero-top-row" variants={itemVariants}>
+                            <TimeDisplay />
                         </motion.div>
 
                         {/* Huge Title */}
@@ -100,23 +109,23 @@ const Home = () => {
 
                         {/* Social Icons (Minimalist) */}
                         <motion.div className="hero-socials" variants={itemVariants}>
-                            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="social-link">
-                                <FiGithub />
+                            <a href="https://github.com/mkashif1000" target="_blank" rel="noopener noreferrer" className="social-link">
+                                <FaGithub />
                             </a>
-                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-link">
-                                <FiTwitter />
+                            <a href="https://discord.gg/mDHRVnUR" target="_blank" rel="noopener noreferrer" className="social-link">
+                                <FaDiscord />
                             </a>
-                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link">
-                                <FiInstagram />
+                            <a href="https://www.instagram.com/m_kashyf?igsh=MTBiZ3B6ZWtleWR6aw==" target="_blank" rel="noopener noreferrer" className="social-link">
+                                <FaInstagram />
                             </a>
-                            <a href="/contact" className="social-link">
-                                <FiMessageSquare />
+                            <a href="https://wa.me/923159317678" target="_blank" rel="noopener noreferrer" className="social-link">
+                                <FaWhatsapp />
                             </a>
-                            <a href="mailto:contact@example.com" className="social-link">
-                                <FiSend />
+                            <a href="https://t.me/Zkashif" target="_blank" rel="noopener noreferrer" className="social-link">
+                                <FaTelegram />
                             </a>
-                            <a href="mailto:contact@example.com" className="social-link">
-                                <FiMail />
+                            <a href="mailto:mkashif.work@gmail.com" className="social-link">
+                                <MdEmail />
                             </a>
                         </motion.div>
                     </motion.div>
@@ -136,6 +145,27 @@ const Home = () => {
             <TechStackMarquee />
             <FeaturedProjects />
             <Testimonials />
+
+            {/* Contact Form Section */}
+            <section className="section-padding">
+                <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingBottom: '4rem' }}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-12"
+                    >
+                        <h2 className="section-heading mb-4">
+                            LET'S <span className="text-gradient">CONNECT</span>
+                        </h2>
+                        <p className="text-secondary">
+                            Ready to start your next project? Send me a message!
+                        </p>
+                    </motion.div>
+                    <ContactForm />
+                </div>
+            </section>
         </>
     );
 };

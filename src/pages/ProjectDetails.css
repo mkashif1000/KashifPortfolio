@@ -1,0 +1,307 @@
+/* Project Details Page Styles */
+
+.project-details-page {
+    padding-top: var(--navbar-height);
+    min-height: 100vh;
+    background: var(--bg-primary);
+    position: relative;
+    padding-bottom: var(--space-20);
+}
+
+.project-details-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-8);
+    transition: all 0.2s ease;
+    margin-top: var(--space-8);
+    z-index: 10;
+    position: relative;
+}
+
+.back-link:hover {
+    color: var(--primary);
+    transform: translateX(-4px);
+}
+
+/* --- Header Section --- */
+.project-details-header {
+    margin-bottom: var(--space-12);
+    position: relative;
+    z-index: 10;
+    max-width: 900px;
+}
+
+.project-meta-badges {
+    display: flex;
+    gap: 12px;
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+}
+
+.status-badge.completed {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.2);
+    color: #10B981;
+}
+
+.status-badge.in-progress {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+    color: #F59E0B;
+}
+
+.featured-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(168, 85, 247, 0.1);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    margin: 0;
+    height: fit-content;
+}
+
+.project-details-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: var(--space-6);
+    background: linear-gradient(to right, #ffffff, #a5b4fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.project-details-excerpt {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-8);
+    max-width: 800px;
+}
+
+.project-links {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.project-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-link-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.project-link-btn.primary {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 10px 25px -10px rgba(139, 92, 246, 0.5);
+}
+
+.project-link-btn.primary:hover {
+    background: var(--primary-dark);
+    box-shadow: 0 15px 30px -10px rgba(139, 92, 246, 0.6);
+}
+
+/* --- Hero Image --- */
+.project-hero-image-wrapper {
+    width: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: var(--space-16);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 5;
+}
+
+.project-hero-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- Content Grid --- */
+.project-details-content-grid {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    gap: var(--space-16);
+    position: relative;
+    z-index: 5;
+}
+
+/* Main Content (Markdown) */
+.project-main-content h2 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    margin-bottom: var(--space-8);
+    color: var(--text-primary);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-markdown {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.project-markdown p {
+    margin-bottom: var(--space-6);
+}
+
+.project-markdown ul,
+.project-markdown ol {
+    margin-bottom: var(--space-6);
+    padding-left: var(--space-6);
+}
+
+.project-markdown li {
+    margin-bottom: var(--space-2);
+}
+
+.project-markdown strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Sidebar */
+.project-sidebar {
+    position: sticky;
+    top: calc(var(--navbar-height) + var(--space-8));
+    height: fit-content;
+}
+
+.sidebar-section {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: var(--space-8);
+    backdrop-filter: blur(10px);
+}
+
+.sidebar-section h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    margin-bottom: var(--space-6);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tech-tags-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tech-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #c4b5fd;
+    transition: all 0.2s ease;
+}
+
+.tech-tag:hover {
+    background: rgba(139, 92, 246, 0.2);
+    color: white;
+}
+
+.tag-icon {
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+/* Reading Progress Bar (Optional, can be added to common if reused) */
+
+/* Loading State */
+.project-details-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .project-details-content-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-12);
+    }
+
+    .project-sidebar {
+        position: static;
+        order: -1;
+        /* Sidebar on top of content on mobile? Or bottom? Let's check user preference. Usually bottom for stack, but top for key info. Screenshot has "Tech Stack" at bottom. Let's keep it default order (bottom) */
+        order: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-details-title {
+        font-size: 2.5rem;
+    }
+
+    .project-hero-image-wrapper {
+        border-radius: 16px;
+        margin-bottom: var(--space-10);
+    }
+}

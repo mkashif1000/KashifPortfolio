@@ -15,6 +15,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Skills from './pages/Skills';
 import Projects from './pages/Projects';
+import ProjectDetails from './pages/ProjectDetails';
 import Services from './pages/Services';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
@@ -24,7 +25,9 @@ import Contact from './pages/Contact';
 // Admin Pages
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
+
 import BlogEditor from './pages/admin/BlogEditor';
+import ProjectEditor from './pages/admin/ProjectEditor';
 
 // Styles
 import './styles/index.css';
@@ -64,6 +67,7 @@ const AnimatedRoutes = () => {
         <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
         <Route path="/skills" element={<PageWrapper><Skills /></PageWrapper>} />
         <Route path="/projects" element={<PageWrapper><Projects /></PageWrapper>} />
+        <Route path="/projects/:id" element={<PageWrapper><ProjectDetails /></PageWrapper>} />
         <Route path="/services" element={<PageWrapper><Services /></PageWrapper>} />
         <Route path="/blog" element={<PageWrapper><Blog /></PageWrapper>} />
         <Route path="/blog/:id" element={<PageWrapper><BlogPost /></PageWrapper>} />
@@ -98,6 +102,26 @@ const AnimatedRoutes = () => {
             <AdminLayout>
               <ProtectedRoute>
                 <BlogEditor />
+              </ProtectedRoute>
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/project-editor"
+          element={
+            <AdminLayout>
+              <ProtectedRoute>
+                <ProjectEditor />
+              </ProtectedRoute>
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/project-editor/:id"
+          element={
+            <AdminLayout>
+              <ProtectedRoute>
+                <ProjectEditor />
               </ProtectedRoute>
             </AdminLayout>
           }

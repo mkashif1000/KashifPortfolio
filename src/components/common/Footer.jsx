@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
     FaInstagram,
-    FaXTwitter,
+    FaDiscord,
     FaGithub,
     FaWhatsapp,
     FaTelegram
@@ -14,7 +14,7 @@ import './Footer.css';
 
 const socialIcons = {
     instagram: FaInstagram,
-    twitter: FaXTwitter,
+    discord: FaDiscord,
     github: FaGithub,
     whatsapp: FaWhatsapp,
     telegram: FaTelegram,
@@ -25,12 +25,12 @@ const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     const socialLinks = [
-        { id: 'instagram', url: 'https://instagram.com/your-username', color: '#E4405F' },
-        { id: 'twitter', url: 'https://twitter.com/your-username', color: '#1DA1F2' },
-        { id: 'github', url: 'https://github.com/your-username', color: '#6e5494' },
-        { id: 'whatsapp', url: 'https://wa.me/923001234567', color: '#25D366' },
-        { id: 'telegram', url: 'https://t.me/your-username', color: '#0088CC' },
-        { id: 'email', url: 'mailto:your-email@example.com', color: '#EA4335' }
+        { id: 'instagram', url: 'https://www.instagram.com/m_kashyf?igsh=MTBiZ3B6ZWtleWR6aw==', color: '#E4405F' },
+        { id: 'discord', url: 'https://discord.gg/mDHRVnUR', color: '#5865F2' },
+        { id: 'github', url: 'https://github.com/mkashif1000', color: '#6e5494' },
+        { id: 'whatsapp', url: 'https://wa.me/923159317678', color: '#25D366' },
+        { id: 'telegram', url: 'https://t.me/Zkashif', color: '#0088CC' },
+        { id: 'email', url: 'mailto:mkashif.work@gmail.com', color: '#EA4335' }
     ];
 
     return (

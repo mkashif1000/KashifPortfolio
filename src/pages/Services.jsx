@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { servicesData } from '../data/services';
 import './Services.css';
 
+const MotionLink = motion.create(Link);
+
 const Services = () => {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -61,7 +63,7 @@ const Services = () => {
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.6 }}
                         >
-                            From concept to deployment, I deliver comprehensive web solutions 
+                            From concept to deployment, I deliver comprehensive web solutions
                             that drive results and exceed expectations.
                         </motion.p>
                     </motion.div>
@@ -133,15 +135,15 @@ const Services = () => {
                             Let's discuss your project and create something amazing together.
                             I'm here to turn your ideas into reality.
                         </p>
-                        <motion.a
-                            href="/contact"
+                        <MotionLink
+                            to="/contact"
                             className="btn-large"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
                             <span className="btn-text">Start Your Project</span>
                             <FiArrowRight className="btn-icon" />
-                        </motion.a>
+                        </MotionLink>
                     </motion.div>
                 </div>
             </section>
@@ -160,7 +162,7 @@ const ServiceCard = ({ service, index, getIcon }) => (
         <div className="service-icon">{getIcon(service.iconType)}</div>
         <h3 className="service-title">{service.title}</h3>
         <p className="service-content">{service.description}</p>
-        
+
         <ul className="service-features">
             {service.features.map((feature, idx) => (
                 <li key={idx} className="feature-item">
