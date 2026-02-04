@@ -56,14 +56,14 @@ const TimeDisplay = () => {
         >
             <div className="time-pill">
                 <div className="time-group">
-                    <span className="time-label">PKT</span>
+                    <span className="time-label">My Time</span>
                     <span className="time-value">{timeData.pkTime}</span>
                 </div>
 
                 <div className="time-divider"></div>
 
                 <div className="time-group">
-                    <span className="time-label">LOC</span>
+                    <span className="time-label">Your Time</span>
                     <span className="time-value">{timeData.localTime}</span>
                 </div>
             </div>
