@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
 import {
-    FaInstagram,
+    FaLinkedin,
     FaDiscord,
     FaGithub,
     FaWhatsapp,
@@ -115,8 +115,8 @@ const Home = () => {
                             <a href="https://discord.gg/mDHRVnUR" target="_blank" rel="noopener noreferrer" className="social-link">
                                 <FaDiscord />
                             </a>
-                            <a href="https://www.instagram.com/m_kashyf?igsh=MTBiZ3B6ZWtleWR6aw==" target="_blank" rel="noopener noreferrer" className="social-link">
-                                <FaInstagram />
+                            <a href="https://www.linkedin.com/in/muhammad-kashif-48a4b01b5/" target="_blank" rel="noopener noreferrer" className="social-link">
+                                <FaLinkedin />
                             </a>
                             <a href="https://wa.me/923159317678" target="_blank" rel="noopener noreferrer" className="social-link">
                                 <FaWhatsapp />

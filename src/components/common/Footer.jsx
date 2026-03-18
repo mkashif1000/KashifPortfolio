@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
-    FaInstagram,
+    FaLinkedin,
     FaDiscord,
     FaGithub,
     FaWhatsapp,
@@ -13,7 +13,7 @@ import { navLinks } from '../../data/socialLinks';
 import './Footer.css';
 
 const socialIcons = {
-    instagram: FaInstagram,
+    linkedin: FaLinkedin,
     discord: FaDiscord,
     github: FaGithub,
     whatsapp: FaWhatsapp,
@@ -25,7 +25,7 @@ const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     const socialLinks = [
-        { id: 'instagram', url: 'https://www.instagram.com/m_kashyf?igsh=MTBiZ3B6ZWtleWR6aw==', color: '#E4405F' },
+        { id: 'linkedin', url: 'https://www.linkedin.com/in/muhammad-kashif-48a4b01b5/', color: '#0A66C2' },
         { id: 'discord', url: 'https://discord.gg/mDHRVnUR', color: '#5865F2' },
         { id: 'github', url: 'https://github.com/mkashif1000', color: '#6e5494' },
         { id: 'whatsapp', url: 'https://wa.me/923159317678', color: '#25D366' },

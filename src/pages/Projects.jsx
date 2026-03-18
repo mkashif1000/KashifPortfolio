@@ -26,12 +26,19 @@ const Projects = () => {
 
     const fetchProjects = async () => {
         try {
-            const q = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
-            const snapshot = await getDocs(q);
+            const snapshot = await getDocs(collection(db, 'projects'));
             const projectsData = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             }));
+
+            // Client-side sort to ensure all projects, even those without createdAt, are shown
+            projectsData.sort((a, b) => {
+                const dateA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt || 0);
+                const dateB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt || 0);
+                return dateB - dateA;
+            });
+
             setProjects(projectsData);
         } catch (error) {
             console.error("Error fetching projects:", error);

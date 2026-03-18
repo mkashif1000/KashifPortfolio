@@ -71,15 +71,19 @@ const Blog = () => {
 
     const fetchPosts = async () => {
         try {
-            const postsQuery = query(
-                collection(db, 'posts'),
-                orderBy('createdAt', 'desc')
-            );
-            const snapshot = await getDocs(postsQuery);
+            const snapshot = await getDocs(collection(db, 'posts'));
             const postsData = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             }));
+            
+            // Client-side sort to ensure all posts, even those without createdAt, are shown
+            postsData.sort((a, b) => {
+                const dateA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt || 0);
+                const dateB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt || 0);
+                return dateB - dateA;
+            });
+
             setPosts(postsData);
             setFilteredPosts(postsData);
         } catch (error) {

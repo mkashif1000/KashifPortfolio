@@ -6,7 +6,7 @@ import {
     FiGlobe
 } from 'react-icons/fi';
 import {
-    FaInstagram,
+    FaLinkedin,
     FaDiscord,
     FaGithub,
     FaWhatsapp,
@@ -42,12 +42,12 @@ const socialLinks = [
         handle: '@Zkashif'
     },
     {
-        id: 'instagram',
-        name: 'Instagram',
-        icon: FaInstagram,
-        url: 'https://www.instagram.com/m_kashyf?igsh=MTBiZ3B6ZWtleWR6aw==',
-        color: '#E4405F',
-        handle: '@m_kashyf'
+        id: 'linkedin',
+        name: 'LinkedIn',
+        icon: FaLinkedin,
+        url: 'https://www.linkedin.com/in/muhammad-kashif-48a4b01b5/',
+        color: '#0A66C2',
+        handle: 'Muhammad Kashif'
     },
     {
         id: 'whatsapp',

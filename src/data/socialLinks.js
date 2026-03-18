@@ -1,12 +1,12 @@
 export const socialLinks = [
     {
-        id: 'instagram',
-        name: 'Instagram',
-        icon: 'FaInstagram',
-        url: 'https://instagram.com/your-username',
-        color: '#E4405F',
-        hoverColor: '#C13584',
-        gradient: 'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)'
+        id: 'linkedin',
+        name: 'LinkedIn',
+        icon: 'FaLinkedin',
+        url: 'https://www.linkedin.com/in/muhammad-kashif-48a4b01b5/',
+        color: '#0A66C2',
+        hoverColor: '#004182',
+        gradient: 'linear-gradient(45deg, #0A66C2 0%, #0077b5 100%)'
     },
     {
         id: 'twitter',

@@ -24,6 +24,7 @@ const AdminDashboard = () => {
     const [posts, setPosts] = useState([]);
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [fetchError, setFetchError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [deleteConfirm, setDeleteConfirm] = useState(null);
     const { logout } = useAuth();
@@ -39,18 +40,23 @@ const AdminDashboard = () => {
 
     const fetchPosts = async () => {
         try {
-            const postsQuery = query(
-                collection(db, 'posts'),
-                orderBy('createdAt', 'desc')
-            );
-            const snapshot = await getDocs(postsQuery);
+            const snapshot = await getDocs(collection(db, 'posts'));
             const postsData = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             }));
+            
+            // Sort client-side to prevent missing `createdAt` from hiding posts
+            postsData.sort((a, b) => {
+                const dateA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt || 0);
+                const dateB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt || 0);
+                return dateB - dateA;
+            });
             setPosts(postsData);
+            setFetchError(null);
         } catch (error) {
             console.error('Error fetching posts:', error);
+            setFetchError(error.message);
         } finally {
             setLoading(false);
         }
@@ -58,18 +64,23 @@ const AdminDashboard = () => {
 
     const fetchProjects = async () => {
         try {
-            const projectsQuery = query(
-                collection(db, 'projects'),
-                orderBy('createdAt', 'desc')
-            );
-            const snapshot = await getDocs(projectsQuery);
+            const snapshot = await getDocs(collection(db, 'projects'));
             const projectsData = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             }));
+            
+            // Sort client-side to prevent missing `createdAt` from hiding projects
+            projectsData.sort((a, b) => {
+                const dateA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt || 0);
+                const dateB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt || 0);
+                return dateB - dateA;
+            });
             setProjects(projectsData);
+            setFetchError(null);
         } catch (error) {
             console.error('Error fetching projects:', error);
+            setFetchError(error.message);
         } finally {
             setLoading(false);
         }
@@ -222,6 +233,12 @@ const AdminDashboard = () => {
                     <div className="admin-loading">
                         <div className="loading-spinner"></div>
                         <p>Loading {viewMode}...</p>
+                    </div>
+                ) : fetchError ? (
+                    <div className="admin-empty" style={{color: '#EA4335'}}>
+                        <FiFileText size={48} />
+                        <h3>Error fetching data</h3>
+                        <p>{fetchError}</p>
                     </div>
                 ) : filteredItems.length === 0 ? (
                     <div className="admin-empty">
